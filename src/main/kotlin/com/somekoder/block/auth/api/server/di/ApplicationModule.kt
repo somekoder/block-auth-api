@@ -10,6 +10,8 @@ import com.somekoder.block.auth.api.domain.datasource.IDatasource
 import com.somekoder.block.auth.api.domain.usecase.*
 import com.somekoder.block.auth.api.domain.util.EmailValidator
 import com.somekoder.block.auth.api.domain.util.PasswordValidator
+import com.somekoder.block.auth.api.infra.logging.DefaultLogger
+import com.somekoder.block.auth.api.infra.logging.Logger
 import com.somekoder.block.auth.api.server.util.DefaultConfig
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
@@ -20,6 +22,7 @@ import org.koin.dsl.module
 fun Application.applicationModule() = module {
 
     single { provideDatabase(get()) }
+    single<Logger> { DefaultLogger(environment) }
 
     single { provideTokenUtils(get()) }
     single { provideRefreshTokenUtils(get()) }
@@ -77,11 +80,11 @@ private fun providePasswordValidator(
 
 private fun provideDatasource(
     tokenUtils: TokenUtils,
-    refreshTokenUtils: RefreshTokenUtils
+    refreshTokenUtils: RefreshTokenUtils,
 ) : IDatasource {
     return SQLDatasource(
         tokenUtils = tokenUtils,
-        refreshTokenUtils = refreshTokenUtils
+        refreshTokenUtils = refreshTokenUtils,
     )
 }
 
@@ -99,4 +102,10 @@ private fun provideDatabase(
             SchemaUtils.create(UserTable, RefreshTokenTable)
         }
     }
+}
+
+private fun provideLogger(
+    environment: ApplicationEnvironment
+) : Logger {
+    return DefaultLogger(environment)
 }

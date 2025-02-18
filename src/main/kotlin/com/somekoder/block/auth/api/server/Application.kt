@@ -9,6 +9,7 @@ import com.somekoder.block.auth.api.domain.usecase.CreateUserUseCase
 import com.somekoder.block.auth.api.domain.usecase.GetUserByIdUseCase
 import com.somekoder.block.auth.api.domain.usecase.LoginUseCase
 import com.somekoder.block.auth.api.domain.usecase.RefreshUseCase
+import com.somekoder.block.auth.api.infra.logging.Logger
 import com.somekoder.block.auth.api.server.request.CreateUserRequest
 import com.somekoder.block.auth.api.server.request.LoginUserRequest
 import com.somekoder.block.auth.api.server.request.RefreshRequest
@@ -42,7 +43,8 @@ fun Application.module() {
 
     // Init database
     val database by inject<Database>()
-    environment.log.info("Connecting to database: ${database.url}")
+    val logger by inject<Logger>()
+    logger.info("Connecting to database: ${database.url}")
 }
 
 private fun Application.configureRouting() {
