@@ -4,15 +4,23 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.somekoder.block.auth.api.infra.RefreshTokenUtils
 import com.somekoder.block.auth.api.infra.TokenUtils
 import com.somekoder.block.auth.api.data.sql.SQLDatasource
+import com.somekoder.block.auth.api.data.sql.table.RefreshTokenTable
+import com.somekoder.block.auth.api.data.sql.table.UserTable
 import com.somekoder.block.auth.api.domain.datasource.IDatasource
 import com.somekoder.block.auth.api.domain.usecase.*
 import com.somekoder.block.auth.api.domain.util.EmailValidator
 import com.somekoder.block.auth.api.domain.util.PasswordValidator
 import com.somekoder.block.auth.api.server.util.DefaultConfig
 import io.ktor.server.application.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.dsl.module
 
 fun Application.applicationModule() = module {
+
+    single { provideDatabase(get()) }
+
     single { provideTokenUtils(get()) }
     single { provideRefreshTokenUtils(get()) }
     single { provideDatasource(get(), get()) }
@@ -75,4 +83,20 @@ private fun provideDatasource(
         tokenUtils = tokenUtils,
         refreshTokenUtils = refreshTokenUtils
     )
+}
+
+private fun provideDatabase(
+    config: DefaultConfig,
+) : Database {
+
+    return Database.connect(
+        url = "jdbc:postgresql://${config.databaseUrl}/${config.databaseName}",
+        user = config.databaseUsername,
+        driver = "org.postgresql.Driver",
+        password = config.databasePassword,
+    ).also {
+        transaction {
+            SchemaUtils.create(UserTable, RefreshTokenTable)
+        }
+    }
 }

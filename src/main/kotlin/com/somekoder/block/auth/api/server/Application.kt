@@ -25,6 +25,7 @@ import io.ktor.server.netty.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.jetbrains.exposed.sql.Database
 import org.koin.ktor.ext.inject
 import java.util.*
 
@@ -37,8 +38,11 @@ fun Application.module() {
     configureDefaultHeaders()
     configureContentNegotiation()
     configureAuthentication()
-    configureDatabase()
     configureRouting()
+
+    // Init database
+    val database by inject<Database>()
+    environment.log.info("Connecting to database: ${database.url}")
 }
 
 private fun Application.configureRouting() {

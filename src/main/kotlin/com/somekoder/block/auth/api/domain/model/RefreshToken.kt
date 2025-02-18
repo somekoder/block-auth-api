@@ -4,4 +4,5 @@ data class RefreshToken(
     val refreshToken: String,
     val refreshTokenHash: String,
     val expiresAt: Long,
+    val createdAt: Long
 )

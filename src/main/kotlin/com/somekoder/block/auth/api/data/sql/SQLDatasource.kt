@@ -18,12 +18,14 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
+import java.time.Clock
 import java.util.*
 
 class SQLDatasource(
     private val tokenUtils: TokenUtils,
     private val refreshTokenUtils: RefreshTokenUtils,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val clock: Clock = Clock.systemUTC()
 ) : IDatasource {
 
     override suspend fun getUserByEmail(email: String): GetResult<User> = transaction(
@@ -37,7 +39,8 @@ class SQLDatasource(
                     val user = User(
                         id = it[UserTable.id].value,
                         email = it[UserTable.email],
-                        passwordHash = it[UserTable.passwordHash]
+                        passwordHash = it[UserTable.passwordHash],
+                        createdAt = it[UserTable.createdAt],
                     )
                     GetResult.Success(user)
                 } ?: GetResult.NotFound
@@ -55,7 +58,8 @@ class SQLDatasource(
                 val user = User(
                     id = it[UserTable.id].value,
                     email = it[UserTable.email],
-                    passwordHash = it[UserTable.passwordHash]
+                    passwordHash = it[UserTable.passwordHash],
+                    createdAt = it[UserTable.createdAt],
                 )
                 GetResult.Success(user)
             } ?: GetResult.NotFound
@@ -78,6 +82,7 @@ class SQLDatasource(
             val row = UserTable.insert {
                 it[UserTable.email] = email
                 it[UserTable.passwordHash] = passwordHash
+                it[UserTable.createdAt] = clock.millis()
             }.resultedValues?.firstOrNull()
 
             if (row == null) {
@@ -87,7 +92,8 @@ class SQLDatasource(
             val user = User(
                 id = row[UserTable.id].value,
                 email = row[UserTable.email],
-                passwordHash = row[UserTable.passwordHash]
+                passwordHash = row[UserTable.passwordHash],
+                createdAt = row[UserTable.createdAt],
             )
             CreateResult.Success(user)
         }
@@ -101,6 +107,7 @@ class SQLDatasource(
             UserTable.selectAll().where { UserTable.email eq email }.singleOrNull()?.let { userRow ->
                 val userId = userRow[UserTable.id].value
                 val passwordHash = userRow[UserTable.passwordHash]
+                val createdAt = userRow[UserTable.createdAt]
 
                 // Verify password
                 val valid = Hashing.verify(password, passwordHash)
@@ -108,7 +115,12 @@ class SQLDatasource(
                     return@transaction LoginResult.InvalidPassword
                 }
 
-                val user = User(email = email, id = userId, passwordHash = passwordHash)
+                val user = User(
+                    email = email,
+                    id = userId,
+                    passwordHash = passwordHash,
+                    createdAt = createdAt,
+                )
 
                 // Generate tokens
                 val token = tokenUtils.generateToken(userId, email)
@@ -119,6 +131,7 @@ class SQLDatasource(
                     refreshTokenInsert[RefreshTokenTable.userId] = user.id
                     refreshTokenInsert[expiresAt] = refreshToken.expiresAt
                     refreshTokenInsert[tokenHash] = refreshToken.refreshTokenHash
+                    refreshTokenInsert[RefreshTokenTable.createdAt] = refreshToken.createdAt
                 }
 
                 return@transaction LoginResult.Success(user, token, refreshToken)

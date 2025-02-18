@@ -13,7 +13,12 @@ class RefreshTokenUtils(
         val token = UUID.randomUUID().toString()
         val hash = Hashing.hash(token)
         val expiresAt = clock.instant().plusMillis(expiresInMillis).toEpochMilli()
-        return RefreshToken(refreshToken = token, refreshTokenHash = hash, expiresAt = expiresAt)
+        return RefreshToken(
+            refreshToken = token,
+            refreshTokenHash = hash,
+            expiresAt = expiresAt,
+            createdAt = clock.millis()
+        )
     }
 
     fun verifyToken(token: String, hashedToken: String): Boolean {

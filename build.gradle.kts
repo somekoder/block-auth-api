@@ -43,9 +43,10 @@ dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.h2)
+    implementation(libs.postgresql)
 
     // Hashing
-    implementation("org.mindrot:jbcrypt:0.4")
+    implementation(libs.jbcrypt)
 }
 
 ktor {

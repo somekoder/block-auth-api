@@ -24,6 +24,11 @@ class DefaultConfig(
     val passwordAllowedChars = DEFAULT_PASSWORD_ALLOWED_CHARS
     val passwordAllowedSpecialChars = DEFAULT_PASSWORD_ALLOWED_SPECIAL_CHARS
 
+    val databaseUrl = config.property("config.database.url").getString()
+    val databaseName = config.property("config.database.name").getString()
+    val databasePassword = config.property("config.database.password").getString()
+    val databaseUsername = config.property("config.database.user").getString()
+
     companion object {
         private val DEFAULT_PASSWORD_ALLOWED_SPECIAL_CHARS = setOf('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '=', '_', '+', ',', '<', '.', '>', '/', '?', ';', ':', '\'', '\"', '[', ']', '{', '}', '\\', '|', '`', '~')
         private val DEFAULT_PASSWORD_ALLOWED_CHARS = (('a'..'z') + ('A'..'Z') + ('0'..'9') + DEFAULT_PASSWORD_ALLOWED_SPECIAL_CHARS).toSet()
