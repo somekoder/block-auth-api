@@ -1,0 +1,35 @@
+ktor:
+    application:
+        modules:
+            - com.somekoder.block.auth.api.server.ApplicationKt.module
+    deployment:
+        port: 8080
+
+config:
+    jwt:
+        secret: $JWT_SECRET
+        issuer: "$JWT_ISSUER:issuer"
+        audience: "$JWT_AUDIENCE:user"
+        expiresIn: "$JWT_EXPIRES_IN:300000" # 5 minutes
+    refresh:
+        expiresIn: "$REFRESH_EXPIRES_IN:1209600000" # 2 weeks
+    password:
+        minLength: "$PASSWORD_MIN_LENGTH:8"
+        maxLength: "$PASSWORD_MAX_LENGTH:32"
+        requireNumber: "$PASSWORD_REQUIRE_NUMBER:true"
+        requireSpecial: "$PASSWORD_REQUIRE_SPECIAL:true"
+        requireLowercase: "$PASSWORD_REQUIRE_LOWERCASE:true"
+        requireUppercase: "$PASSWORD_REQUIRE_UPPERCASE:true"
+    email:
+        regex: "$EMAIL_REGEX:^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+
+    database:
+        url: "$DATABASE_URL"
+        user: "$DATABASE_USER"
+        password: "$DATABASE_PASSWORD"
+        name: "$DATABASE_NAME"
+
+
+
+
+

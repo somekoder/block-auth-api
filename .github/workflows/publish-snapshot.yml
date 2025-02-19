@@ -1,0 +1,51 @@
+name: Build snapshot image
+
+on:
+  push:
+    branches:
+      - dev  # Trigger only on push to the dev branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read  # Allows the action to read repository contents (code)
+      packages: write  # Grants permission to publish images to GHCR
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set execute permission for Gradle Wrapper
+        run: chmod +x ./gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Generate Image Version and Set Env Variables
+        run: |
+          # Generate epoch milliseconds-based version for Docker image
+          OWNER=${{ github.repository_owner }}
+          VERSION=$(date +%s%3N)
+          echo "OWNER: $OWNER"
+          echo "VERSION: $VERSION"
+          
+          echo "DOCKER_IMAGE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "DOCKER_PROJECT_NAME=auth-api-snapshot" >> $GITHUB_ENV
+          echo "DOCKER_USERNAME=$OWNER" >> $GITHUB_ENV
+          echo "DOCKER_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+          echo "DOCKER_HOST=ghcr.io/$OWNER" >> $GITHUB_ENV
+
+      - name: Build and Publish Docker Image with Gradle
+        run: ./gradlew publishImage
+        env:
+          DOCKER_IMAGE_VERSION: ${{ env.DOCKER_IMAGE_VERSION }}
+          DOCKER_PROJECT_NAME: ${{ env.DOCKER_PROJECT_NAME }}
+          DOCKER_USERNAME: ${{ env.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ env.DOCKER_PASSWORD }}
+          DOCKER_HOST: ${{ env.DOCKER_HOST }}
