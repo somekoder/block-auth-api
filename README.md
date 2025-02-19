@@ -3,9 +3,7 @@
 
 A simple dockerized authentication web server.
 
-[![Build release image](https://github.com/somekoder/block-auth-api/actions/workflows/publish-release.yml/badge.svg)](https://github.com/somekoder/block-auth-api/actions/workflows/publish-release.yml)
-
-[![Build snapshot image](https://github.com/somekoder/block-auth-api/actions/workflows/publish-snapshot.yml/badge.svg)](https://github.com/somekoder/block-auth-api/actions/workflows/publish-snapshot.yml)
+![GitHub Release](https://img.shields.io/github/v/release/somekoder/block-auth-api?include_prereleases)
 
 ## Quickstart
 ```yaml
