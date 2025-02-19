@@ -44,7 +44,7 @@ services:
 | `DATABASE_NAME`              | Name of the database                            |                                                     |
 | `JWT_SECRET`                 | Adds a default set of headers to HTTP responses |                                                     |
 | `JWT_ISSUER`                 | Issuer attached to the JSON web tokens          | `issuer`                                            |
-| `JWT_AUDIENCE`               | Adds Exposed database to your application       | `user`                                              |
+| `JWT_AUDIENCE`               | Audience attached to the JSON web tokens        | `user`                                              |
 | `JWT_EXPIRES_IN`             | Milliseconds in which tokens expire             | `600000 # 10 mins`                                  |
 | `REFRESH_EXPIRES_IN`         | Milliseconds in which refresh tokens expire     | `2629746000 # 1 month`                              |
 | `PASSWORD_MIN_LENGTH`        | Minimum number of characters for password       | `8`                                                 |
@@ -54,9 +54,6 @@ services:
 | `PASSWORD_REQUIRE_LOWERCASE` | Require at least one lowercase letter           | `true`                                              |
 | `PASSWORD_REQUIRE_UPERCASE`  | Require at least one uppercase letter           | `true`                                              |
 | `EMAIL_REGEX`                | Regex used for validating emails                | `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$` |
-
-You may refer to [this](https://github.com/somekoder/block-auth-api/blob/dev/src/main/resources/application.yaml) for more 
-info
 
 ## Endpoints
 
