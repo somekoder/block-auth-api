@@ -91,7 +91,7 @@ info
 }
 ```
 
-### `GET /users/{id}`
+### `GET /user/{id}`
 ```
 "Authorization" : "Bearer Token"
 ```
