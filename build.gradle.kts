@@ -51,9 +51,9 @@ dependencies {
 
 ktor {
     docker {
-        localImageName.set(providers.environmentVariable("DOCKER_PROJECT_NAME"))
+        localImageName.set(provider { "block-auth-api" })
         jreVersion.set(JavaVersion.VERSION_21)
-        imageTag.set(providers.gradleProperty("AUTH_VERSION"))
+        imageTag.set(providers.environmentVariable("DOCKER_IMAGE_VERSION"))
         externalRegistry.set(
             io.ktor.plugin.features.DockerImageRegistry.externalRegistry(
                 project = providers.environmentVariable("DOCKER_PROJECT_NAME"),
