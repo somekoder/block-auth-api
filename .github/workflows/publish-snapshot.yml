@@ -2,8 +2,7 @@ name: Build snapshot image
 
 on:
   push:
-    branches:
-      - dev  # Trigger only on push to the dev branch
+    branches: ["main"]
 
 jobs:
   build:
