@@ -8,6 +8,7 @@ ktor-version = "3.0.3"
 logback-version = "1.4.14"
 postgresql-version = "42.7.2"
 jbcrypt-version = "0.4"
+mockk-version = "1.13.16"
 
 [libraries]
 ktor-server-rate-limiting = { module = "io.github.flaxoos:ktor-server-rate-limiting", version = "2.1.2" }
@@ -31,6 +32,7 @@ ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref 
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql-version" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt-version" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk-version" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
