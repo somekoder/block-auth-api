@@ -178,6 +178,7 @@ class SQLDatasource(
                 refreshTokenInsert[RefreshTokenTable.userId] = userId
                 refreshTokenInsert[expiresAt] = newRefreshToken.expiresAt
                 refreshTokenInsert[tokenHash] = newRefreshToken.refreshTokenHash
+                refreshTokenInsert[createdAt] = newRefreshToken.createdAt
             }
 
             // Recycle old refresh token

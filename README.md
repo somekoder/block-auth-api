@@ -7,7 +7,7 @@ A simple dockerized authentication web server.
 
 [![Build snapshot image](https://github.com/somekoder/block-auth-api/actions/workflows/publish-snapshot.yml/badge.svg)](https://github.com/somekoder/block-auth-api/actions/workflows/publish-snapshot.yml)
 
-### Quickstart
+## Quickstart
 ```yaml
 services:
   auth-api:
@@ -36,7 +36,7 @@ services:
       - /path/to/database:/var/lib/postgresql/data
 ```
 
-### Environment Variables
+## Environment Variables
 
 | Variable                     | Description                                     | Default                                             |
 |------------------------------|-------------------------------------------------|-----------------------------------------------------|
@@ -60,7 +60,43 @@ services:
 You may refer to [this](https://github.com/somekoder/block-auth-api/blob/dev/src/main/resources/application.yaml) for more 
 info
 
-### Databases
+## Endpoints
+
+### `POST /create`
+
+```json
+{ 
+  "email" : "example@email.com", 
+  "password" : "password"
+}
+```
+
+### `POST /login`
+
+```json
+{ 
+  "email" : "example@email.com", 
+  "password" : "password"
+}
+```
+
+### `POST /refresh`
+```
+"Authorization" : "Bearer Token"
+```
+
+```json
+{
+  "refreshToken": "8ad81001-9bd3-41b9-bc9d-5de7a57cd9a7"
+}
+```
+
+### `GET /users/{id}`
+```
+"Authorization" : "Bearer Token"
+```
+
+## Databases
 
 List of supported & planned databases
 
