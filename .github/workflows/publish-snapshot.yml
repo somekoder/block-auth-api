@@ -1,4 +1,4 @@
-name: Build and Publish Snapshot Docker Image to GitHub Container Registry
+name: Build snapshot image
 
 on:
   push:
