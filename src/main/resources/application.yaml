@@ -17,9 +17,9 @@ config:
         minLength: "$PASSWORD_MIN_LENGTH:8"
         maxLength: "$PASSWORD_MAX_LENGTH:32"
         requireNumber: "$PASSWORD_REQUIRE_NUMBER:true"
-        requireSpecial: "$PASSWORD_SPECIAL:true"
-        requireLowercase: "$REQUIRE_LOWERCASE:true"
-        requireUppercase: "$REQUIRE_UPPERCASE:true"
+        requireSpecial: "$PASSWORD_REQUIRE_SPECIAL:true"
+        requireLowercase: "$PASSWORD_REQUIRE_LOWERCASE:true"
+        requireUppercase: "$PASSWORD_REQUIRE_UPPERCASE:true"
     email:
         regex: "$EMAIL_REGEX:^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
 
