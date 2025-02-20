@@ -5,9 +5,7 @@ import com.somekoder.block.auth.api.domain.datasource.result.LoginResult
 import com.somekoder.block.auth.api.domain.model.RefreshToken
 import com.somekoder.block.auth.api.domain.model.Token
 import com.somekoder.block.auth.api.domain.model.User
-import com.somekoder.block.auth.api.infra.TokenUtils
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
