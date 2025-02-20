@@ -1,4 +1,4 @@
-package com.somekoder.block.auth.api.data.infra
+package com.somekoder.block.auth.api.infra
 
 import com.somekoder.block.auth.api.infra.Hashing
 import org.junit.Assert.*

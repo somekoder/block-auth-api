@@ -1,4 +1,4 @@
-package com.somekoder.block.auth.api.data.infra
+package com.somekoder.block.auth.api.infra
 
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.TokenExpiredException

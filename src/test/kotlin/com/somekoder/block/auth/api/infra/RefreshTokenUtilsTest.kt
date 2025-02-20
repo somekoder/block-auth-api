@@ -1,4 +1,4 @@
-package com.somekoder.block.auth.api.data.infra
+package com.somekoder.block.auth.api.infra
 
 import com.somekoder.block.auth.api.infra.RefreshTokenUtils
 import org.junit.Assert.assertEquals
